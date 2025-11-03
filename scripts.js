@@ -26,6 +26,9 @@ const findWord = (string, key) => {
 //             -> ["number: one", "number: two", "number: three"]
 
 const array = ["one", "two", "three"]
+
+
+
 const result = []
 
 let total = array.length;
