@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const Task = ({ task, tasks, setTasks }) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -39,10 +39,6 @@ const Task = ({ task, tasks, setTasks }) => {
     localStorage.setItem("tasks", JSON.stringify(data));
   };
 
-  useEffect(() => {
-    setNameEdited(task.name);
-  }, [task.name]);
-
   return (
     <div style={{ border: "1px solid white", padding: 10, borderRadius: 10 }}>
       <h5>{task.name}</h5>
@@ -50,7 +46,7 @@ const Task = ({ task, tasks, setTasks }) => {
         {isEdit ? (
           <div>
             <input
-              value={nameEdited}
+              defaultValue={task.name}
               onChange={(e) => setNameEdited(e.target.value)}
             />
             <button onClick={handleEditTask}>Save</button>
