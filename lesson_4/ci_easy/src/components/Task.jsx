@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Task = ({ task, tasks, setTasks }) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -38,6 +38,10 @@ const Task = ({ task, tasks, setTasks }) => {
   const updateLocalStorage = (data) => {
     localStorage.setItem("tasks", JSON.stringify(data));
   };
+
+  useEffect(() => {
+    setNameEdited(task.name);
+  }, [task.name]);
 
   return (
     <div style={{ border: "1px solid white", padding: 10, borderRadius: 10 }}>
