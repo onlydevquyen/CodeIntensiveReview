@@ -2,11 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import SearchIcon from "../assets/icons/SearchIcon";
 
-function SearchItem() {
+function SearchItem({ setSearch }) {
   return (
     <SearchWrapper>
       <SearchIcon />
-      <SearchCustome placeholder="Search Items" />
+      <SearchCustome
+        placeholder="Search Items"
+        onChange={(e) => setSearch(e.target.value)}
+      />
     </SearchWrapper>
   );
 }
@@ -18,7 +21,7 @@ const SearchWrapper = styled.div`
   border-radius: 5px;
   padding-left: 10px;
   display: flex;
-  align-items: center
+  align-items: center;
 `;
 
 const SearchCustome = styled.input`

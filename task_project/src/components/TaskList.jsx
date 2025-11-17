@@ -4,9 +4,18 @@ import TaskCard from "./TaskCard";
 import MoreIcon from "../assets/icons/MoreIcon";
 import PlushIcon from "../assets/icons/PlushIcon";
 import { tasks, taskStatus } from "../data/data";
-function TaskList({ status }) {
-  const data = tasks.filter(task => task.statusId === status );
-  const titleList = taskStatus.find(item  => item.statusId === status)
+function TaskList({ status, search }) {
+  const data = tasks
+    .filter((task) => task.statusId === status)
+    .filter((task) => {
+      if (!search?.trim()) return true;
+      const s = search.toLowerCase();
+      return (
+        task.title?.toLowerCase().includes(s) ||
+        task.description?.toLowerCase().includes(s)
+      );
+    });
+  const titleList = taskStatus.find((item) => item.statusId === status);
   return (
     <List>
       <div className="list-header">
@@ -26,7 +35,7 @@ function TaskList({ status }) {
       </div>
 
       <div className="list-content">
-        {data.map(task => {
+        {data.map((task) => {
           return <TaskCard key={task.taskId} task={task} />;
         })}
       </div>
@@ -40,6 +49,7 @@ const List = styled.div`
   background: #e6ecf0;
   border-radius: 5px 5px 0 0;
   min-height: 85vh;
+  min-width: 340px;
   .flex-horizontal-center {
     display: flex;
     align-items: center;

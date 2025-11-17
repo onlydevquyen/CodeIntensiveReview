@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Button = ({ text, onClick }) => {
-  return <ButtonCustome onClick={onclick}>{text}</ButtonCustome>;
+  return <ButtonCustome onClick={onClick}>{text}</ButtonCustome>;
 };
 
 export default Button;
