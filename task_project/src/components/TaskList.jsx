@@ -3,8 +3,8 @@ import styled from "styled-components";
 import TaskCard from "./TaskCard";
 import MoreIcon from "../assets/icons/MoreIcon";
 import PlushIcon from "../assets/icons/PlushIcon";
-import { tasks, taskStatus } from "../data/data";
-function TaskList({ status, search }) {
+import { taskStatus } from "../data/data";
+function TaskList({ status, search, tasks }) {
   const data = tasks
     .filter((task) => task.statusId === status)
     .filter((task) => {
@@ -14,7 +14,13 @@ function TaskList({ status, search }) {
         task.title?.toLowerCase().includes(s) ||
         task.description?.toLowerCase().includes(s)
       );
-    });
+    }).sort((a, b) => {
+    // Nếu không có deadline → đẩy xuống cuối
+    if (!a.deadline) return 1;
+    if (!b.deadline) return -1;
+    // So sánh deadline (chuỗi hoặc Date)
+    return new Date(a.deadline) - new Date(b.deadline); // Cũ nhất lên đầu
+  });
   const titleList = taskStatus.find((item) => item.statusId === status);
   return (
     <List>
