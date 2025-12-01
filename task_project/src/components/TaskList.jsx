@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import TaskCard from "./TaskCard";
 import MoreIcon from "../assets/icons/MoreIcon";
 import PlushIcon from "../assets/icons/PlushIcon";
-import { taskStatus } from "../data/data";
-function TaskList({ status, search, tasks, setTasksData }) {
+import { ProjectContext } from "../context/ProjectContext";
+function TaskList({ status }) {
+  const { taskStatus, tasks, search } = useContext(ProjectContext);
   const data = tasks
     .filter((task) => task.statusId === status)
     .filter((task) => {
@@ -43,13 +44,7 @@ function TaskList({ status, search, tasks, setTasksData }) {
 
       <div className="list-content">
         {data.map((task) => {
-          return (
-            <TaskCard
-              key={task.taskId}
-              task={task}
-              setTasksData={setTasksData}
-            />
-          );
+          return <TaskCard key={task.taskId} task={task} />;
         })}
       </div>
     </List>

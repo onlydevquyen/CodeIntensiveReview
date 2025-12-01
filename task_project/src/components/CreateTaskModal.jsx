@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
-  Alert,
   Button,
   Col,
   DatePicker,
   Flex,
   Form,
   Input,
-  message,
   Modal,
   Row,
   Select,
@@ -18,9 +16,11 @@ import TextArea from "antd/es/input/TextArea";
 import { users, taskStatus, flags } from "../data/data";
 import dayjs from "dayjs";
 import axios from "axios";
-const CreateTaskModal = ({ open, setOpen, setTasksData, taskEdit }) => {
+import { ProjectContext } from "../context/ProjectContext";
+const CreateTaskModal = ({ open, setOpen, taskEdit }) => {
   const [form] = useForm();
   const [flagStatus, setFlagStatus] = useState(taskEdit?.flagId);
+  const { setTasks } = useContext(ProjectContext)
   // Đồng bộ form khi mở modal hoặc idEdit thay đổi
   useEffect(() => {
     if (open) {
@@ -44,34 +44,6 @@ const CreateTaskModal = ({ open, setOpen, setTasksData, taskEdit }) => {
     }
   }, [open, taskEdit, form]);
 
-  // const handleCreateTask = async () => {
-  //   try {
-  //     const values = await form.validateFields();
-
-  //     if (taskEdit) {
-  //       // Cập nhật task
-  //       setTasksData((prev) =>
-  //         prev.map((item) =>
-  //           item.taskId === taskEdit.taskId
-  //             ? {
-  //                 ...item,
-  //                 ...values,
-  //                 deadline: values.endDate ? values.endDate.toDate() : null,
-  //               }
-  //             : item
-  //         )
-  //       );
-  //     } else {
-  //       // Tạo task mới
-  //     }
-
-  //     form.resetFields();
-  //     setOpen(false);
-  //   } catch (error) {
-  //     console.log("Validation failed:", error);
-  //   }
-  // };
-
   const handleCreateTask = async () => {
     try {
       const values = await form.validateFields();
@@ -79,7 +51,7 @@ const CreateTaskModal = ({ open, setOpen, setTasksData, taskEdit }) => {
         ...values,
         deadline: values.endDate ? dayjs(values.endDate).format("YYYY-MM-DD"): null,
       };
-      setTasksData((prev) => [...prev, newTask]);
+      setTasks((prev) => [...prev, newTask]);
       const res = await axios.post("https://mindx-mockup-server.vercel.app/api/resources/tasks?apiKey=69206f04c549072033e5e004", newTask);      
       alert(res.data.message)
     } catch (error) {

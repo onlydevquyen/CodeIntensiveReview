@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import SearchIcon from "../assets/icons/SearchIcon";
+import { ProjectContext } from "../context/ProjectContext";
 
-function SearchItem({ setSearch }) {
+function SearchItem() {
+  const { setSearch } = useContext(ProjectContext)
   return (
     <SearchWrapper>
       <SearchIcon />
