@@ -10,12 +10,15 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const handleSubmit = () => {
     setLoading(true);
-    localStorage.setItem("auth", 1);
-    setTimeout(() => {
-      message.success("Login successfully!");
-      navigate("/my-profile");
-    }, 3000);
-    setLoading(false);
+    try {
+      localStorage.setItem("auth", 1);
+      setTimeout(() => {
+        message.success("Login successfully!");
+        navigate("/my-profile");
+      }, 3000);
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   return (

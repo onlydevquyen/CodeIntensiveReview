@@ -1,7 +1,8 @@
 import React from "react";
-import { Tabs } from "antd";
+import { Button, Tabs } from "antd";
 import CardUserOverview from "../../components/CardUserOverview";
 import { Outlet, useLocation, useNavigate } from "react-router";
+import { LogoutOutlined } from "@ant-design/icons";
 
 const Profile = () => {
   const location = useLocation();
@@ -24,10 +25,18 @@ const Profile = () => {
       return "post";
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("auth");
+    navigate("/login");
+  };
+
   return (
     <div className="profilePage m-auto p-[18px] max-w-[90vw] min-h-[50vh] flex gap-[18px]">
-      <div className="flex-[0.25]  p-[18px] bg-white">
+      <div className="flex-[0.25]  p-[18px] bg-white text-center">
         <CardUserOverview />
+        <Button icon={<LogoutOutlined />} onClick={handleLogout}>
+          Log Out
+        </Button>
       </div>
       <div className="flex-[0.75] bg-white  p-[18px]">
         <Tabs
