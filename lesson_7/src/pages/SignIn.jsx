@@ -13,9 +13,6 @@ const SignIn = ({ isSignUp, setSignUp }) => {
     try {
       const response = await axios.get(`https://mindx-mockup-server.vercel.app/api/resources/accounts?apiKey=69206f04c549072033e5e004`)
       const users = response.data.data.data;
-      console.log(users);
-      console.log(values);
-      
       const isLogin = users.find(user => user.email === values.username && user.password === values.password)
       if(isLogin){
         message.success("Login successfully!")

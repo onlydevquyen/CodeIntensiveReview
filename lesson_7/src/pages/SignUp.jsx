@@ -12,7 +12,6 @@ const SignUp = ({ isSignUp, setSignUp }) => {
     try {
       const response = await axios.post(`https://mindx-mockup-server.vercel.app/api/resources/accounts?apiKey=69206f04c549072033e5e004`, values)
       message.success(response.data.message)
-      console.log(response.data);
     } catch (error) {
       console.error(error.message);
     } finally {
