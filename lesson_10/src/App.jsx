@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import TodoForm from "./components/TodoForm";
 import SearchBar from "./components/SearchBar";
 import TodoList from "./components/TodoList";
@@ -25,24 +25,28 @@ function App() {
   };
 
   // Xóa todo
-  const deleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
+  const deleteTodo = useCallback((id) => {
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  }, []);
 
   // Sửa todo
-  const updateTodo = (id, newTitle) => {
+  const updateTodo = useCallback((id, newTitle) => {
     if (!newTitle.trim()) return;
-    setTodos(
-      todos.map((todo) =>
+    setTodos((prev) =>
+      prev.map((todo) =>
         todo.id === id ? { ...todo, title: newTitle.trim() } : todo
       )
     );
-  };
+  }, []);
 
   // Lọc theo từ khóa
-  const filteredTodos = todos.filter((todo) =>
+  const filteredTodos = useMemo(() => {
+    console.log("Xử lý tìm kiếm...");
+    return todos.filter((todo) =>
     todo.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  )
+  }, [searchTerm, todos]);
+
 
   return (
     <div className=" py-12 px-4">

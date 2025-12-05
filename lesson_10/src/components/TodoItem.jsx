@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
 
-const TodoItem = ({ todo, onDelete, onUpdate }) => {
+const TodoItem = memo(function TodoItem({ todo, onDelete, onUpdate }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(todo.title);
   console.log("Re-render: ", todo.id);
@@ -48,6 +48,6 @@ const TodoItem = ({ todo, onDelete, onUpdate }) => {
       </div>
     </div>
   );
-};
+});
 
 export default TodoItem;
