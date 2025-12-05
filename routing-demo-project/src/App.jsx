@@ -18,6 +18,14 @@ function App() {
             <Route path="information" element={<UserProfile />} />
           </Route>
         </Route>
+
+        <Route path="profile" element={<ProtectedRoute />}>
+          <Route path=":idFilm" element={<Profile />}>
+            <Route index element={<ListPost />} />
+            <Route path="post" element={<ListPost />} />
+            <Route path="information" element={<UserProfile />} />
+          </Route>
+        </Route>
       </Routes>
     </div>
   );

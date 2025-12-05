@@ -11,10 +11,11 @@ export default function LoginPage() {
   const handleSubmit = () => {
     setLoading(true);
     try {
-      localStorage.setItem("auth", 1);
+      let userId = Date.now()
+      localStorage.setItem("auth", userId);
       setTimeout(() => {
         message.success("Login successfully!");
-        navigate("/my-profile");
+        navigate(`/profile/${userId}`);
       }, 3000);
     } catch (error) {
       console.error(error.message);
