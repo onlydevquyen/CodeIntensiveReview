@@ -3,6 +3,7 @@ import { Button, Tabs } from "antd";
 import CardUserOverview from "../../components/CardUserOverview";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import { LogoutOutlined } from "@ant-design/icons";
+import ChatBox from "../../components/GeminiChat/ChatBox";
 
 const Profile = () => {
   const location = useLocation();
@@ -48,6 +49,7 @@ const Profile = () => {
         />
         <Outlet />
       </div>
+      <ChatBox/>
     </div>
   );
 };

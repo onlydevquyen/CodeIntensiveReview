@@ -3,6 +3,7 @@ import TodoForm from "./components/TodoForm";
 import SearchBar from "./components/SearchBar";
 import TodoList from "./components/TodoList";
 import "./App.css";
+import GeminiChat from "./components/GeminiAI";
 
 function App() {
   const [todos, setTodos] = useState([
@@ -66,6 +67,8 @@ function App() {
             onUpdate={updateTodo}
           />
         </div>
+
+        {/* <GeminiChat/> */}
       </div>
     </div>
   );

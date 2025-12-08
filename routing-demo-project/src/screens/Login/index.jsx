@@ -15,7 +15,7 @@ export default function LoginPage() {
       localStorage.setItem("auth", userId);
       setTimeout(() => {
         message.success("Login successfully!");
-        navigate(`/profile/${userId}`);
+        navigate(`/my-profile`);
       }, 3000);
     } catch (error) {
       console.error(error.message);
