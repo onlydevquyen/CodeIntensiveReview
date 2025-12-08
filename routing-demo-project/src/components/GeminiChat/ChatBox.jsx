@@ -13,26 +13,9 @@ import {
 } from "antd";
 import Icon from "@ant-design/icons/lib/components/Icon";
 import GeminiIcon from "../../assets/GeminiIcon";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 const { TextArea } = Input;
-
-// Thay bằng API key của bạn (khuyến cáo dùng .env)
-// const API_KEY = import.meta.env.VITE_GEMINI_KEY;
-
-// const genAI = new GoogleGenerativeAI(API_KEY);
-// const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-
-// Khởi tạo chat session để giữ lịch sử cuộc trò chuyện
-// const chat = model.startChat({
-//   history: [
-//     {
-//       role: "model",
-//       parts: [{ text: `` }],
-//     },
-//   ],
-//   generationConfig: {
-//     maxOutputTokens: 1000, // Giới hạn token để tránh quá dài
-//   },
-// });
+import { useAuth } from "../../hook";
 
 const ChatBox = () => {
   const [openChat, setOpenChat] = useState(false);
@@ -41,6 +24,30 @@ const ChatBox = () => {
   const [messages, setMessages] = useState([]);
   const [prompt, setPrompt] = useState("");
   const messagesEndRef = useRef();
+  const { users } = useAuth();
+
+  // Thay bằng API key của bạn (khuyến cáo dùng .env)
+  const API_KEY = import.meta.env.VITE_GEMINI_KEY;
+
+  const genAI = new GoogleGenerativeAI(API_KEY);
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+  // Khởi tạo chat session để giữ lịch sử cuộc trò chuyện
+  const chat = model.startChat({
+    history: [
+      {
+        role: "user",
+        parts: [
+          {
+            text: `Bạn là một nhân viên chăm sóc y tế, hãy nói chào người dùng với email là: ${users?.email}. Ví dụ: Xin chào anh/chị, example@gmail.com`,
+          },
+        ],
+      },
+    ],
+    generationConfig: {
+      maxOutputTokens: 1000,
+    },
+  });
 
   const handleSend = async () => {
     if (!prompt.trim()) return;
@@ -51,10 +58,12 @@ const ChatBox = () => {
     setError("");
     setLoading(true);
     try {
-      //   const result = await chat.sendMessage(prompt);
-      //   const responseText = result.response.text();
+      const result = await chat.sendMessage(prompt);
+      const responseText = result.response.text();
+      console.log(responseText);
+
       // Thêm phản hồi từ model vào lịch sử
-      //   setMessages([...newMessages, { role: "model", content: responseText }]);
+      setMessages([...newMessages, { role: "model", content: responseText }]);
     } catch (err) {
       setError("Lỗi kết nối Gemini. Kiểm tra API key hoặc mạng.");
       console.error(err);
@@ -100,14 +109,13 @@ const ChatBox = () => {
               </List.Item>
             )}
           />
+          {loading && (
+            <div style={{ textAlign: "center", margin: "20px 0" }}>
+              <Skeleton />
+            </div>
+          )}
           <div ref={messagesEndRef} />
         </Card>
-
-        {loading && (
-          <div style={{ textAlign: "center", margin: "20px 0" }}>
-            <Skeleton />
-          </div>
-        )}
 
         {errors && (
           <Alert

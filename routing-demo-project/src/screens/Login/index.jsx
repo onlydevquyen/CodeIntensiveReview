@@ -2,21 +2,26 @@ import React, { useState } from "react";
 import { Button, Checkbox, Form, Input, message, Typography } from "antd";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router";
+import { useAuth } from "../../hook";
 
 const { Text, Title, Link } = Typography;
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const handleSubmit = () => {
+  const { users, login } = useAuth()
+  console.log(users);
+  
+  const handleSubmit = (values) => {
     setLoading(true);
+    console.log(values);
+    
     try {
-      let userId = Date.now()
-      localStorage.setItem("auth", userId);
-      setTimeout(() => {
-        message.success("Login successfully!");
+      login(values.email)
+      // setTimeout(() => {
+      //   message.success("Login successfully!");
         navigate(`/my-profile`);
-      }, 3000);
+      // }, 3000);
     } catch (error) {
       console.error(error.message);
     }

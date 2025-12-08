@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useState, useEffect } from 'react';
 
 export function useAuth() {
@@ -21,4 +22,15 @@ export function useAuth() {
   };
 
   return { user, login, logout };
+}
+
+export function useDebounce(value, delay) {
+  const ref = useRef(value);
+  useEffect(() => {
+    const t = setTimeout(() => {
+      ref.current = value;    
+    }, delay);
+    return () => clearTimeout(t);
+  }, [value, delay]);
+  return ref.current;
 }

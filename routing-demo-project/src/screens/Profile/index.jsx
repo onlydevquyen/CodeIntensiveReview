@@ -4,10 +4,12 @@ import CardUserOverview from "../../components/CardUserOverview";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import { LogoutOutlined } from "@ant-design/icons";
 import ChatBox from "../../components/GeminiChat/ChatBox";
+import { useAuth } from "../../hook";
 
 const Profile = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { logout } = useAuth()
   const tabItems = [
     {
       key: "post",
@@ -27,7 +29,7 @@ const Profile = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("auth");
+    logout();
     navigate("/login");
   };
 
